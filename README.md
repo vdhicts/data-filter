@@ -16,7 +16,7 @@ composer require vdhicts/data-filter
 
 Creating field is based on a key and a value:
 
-```
+```php
 $fieldKey = 'manufacturer';
 $fieldValue = 1;
 
@@ -30,34 +30,34 @@ parameters are constants of the field `APPROVAL_ACCEPT`, `APPROVAL_REJECT`, `APP
 The field is a member of a group. The group has a conjunction, which are constants of the group called 
 `CONJUNCTION_AND` and `CONJUCTION_OR`.
 
-```
+```php
 $group = new Group($field, Group::CONJUNCTION_OR);
 ```
 
 One or more groups are provided to the filter:
 
-```
+```php
 $filter = new Filter([$group]);
 ```
 
 The manager can encode and decode the filter so it can be used in the url or session. The actual encoding or decoding 
 is performed by a `Codec` which implements the `Codec` contract. By default a `Base64` codec is provided.
 
-```
+```php
 $manager = new Manager(new Base64());
 $encodedFilter = $manager->encode($filter);
 ```
 
 The manager can decode the filter and will return a new filter instance:
 
-```
+```php
 $decodedFilter = $manager->decode($encodedFilter);
 ```
 
 A query builder is provided to easily query your database with the filter configuration for the illuminate query 
 builder:
  
-```
+```php
 $filterAdapter = new QueryBuilder();
 
 $queryBuilder = $filterAdapter->getFilterQuery($queryBuilder, $decodedFilter);
