@@ -45,12 +45,15 @@ class FilterTest extends TestCase
             new Field('manufacturer', 1, Field::APPROVAL_ACCEPT),
             new Field('manufacturer', 2, Field::APPROVAL_ACCEPT)
         ];
-        $group = new Group($fields, Group::CONJUNCTION_OR);
+        $group = new Group('group1', $fields, Group::CONJUNCTION_OR);
 
         $this->assertInstanceOf(Group::class, $group);
         $this->assertSame(Group::CONJUNCTION_OR, $group->getConjunction());
         $this->assertTrue(is_array($group->getFields()));
         $this->assertSameSize($fields, $group->getFields());
+        $this->assertSame('group1', $group->getName());
+        $this->assertTrue(is_array($group->getFields('manufacturer')));
+        $this->assertSameSize($fields, $group->getFields('manufacturer'));
 
         $filterField = new Field('manufacturer', 3, Field::APPROVAL_REJECT);
 
@@ -81,12 +84,12 @@ class FilterTest extends TestCase
             new Field('manufacturer', 1, Field::APPROVAL_ACCEPT),
             new Field('manufacturer', 2, Field::APPROVAL_ACCEPT)
         ];
-        $filterGroup1 = new Group($filterFields1, Group::CONJUNCTION_OR);
+        $filterGroup1 = new Group('group1', $filterFields1, Group::CONJUNCTION_OR);
 
         $filterFields2 = [
             new Field('type', 1, Field::APPROVAL_REJECT),
         ];
-        $filterGroup2 = new Group($filterFields2);
+        $filterGroup2 = new Group('group2', $filterFields2);
 
         $filter = new Filter([
             $filterGroup1,
@@ -100,7 +103,7 @@ class FilterTest extends TestCase
         $filterFields3 = [
             new Field('price', 10, Field::APPROVAL_END_OF_RANGE),
         ];
-        $filterGroup3 = new Group($filterFields3);
+        $filterGroup3 = new Group('group3', $filterFields3);
 
         $filter->addGroup($filterGroup3);
 
@@ -117,6 +120,10 @@ class FilterTest extends TestCase
         $filterJson = $filter->toJson();
 
         $this->assertTrue(is_string($filterJson));
+
+        $this->assertInstanceOf(Group::class, $filter->getGroup('group1'));
+        $this->assertInstanceOf(Group::class, $filter->getGroup('group2'));
+        $this->assertInstanceOf(Group::class, $filter->getGroup('group3'));
     }
 
     /**
@@ -128,12 +135,12 @@ class FilterTest extends TestCase
             new Field('manufacturer', 1, Field::APPROVAL_ACCEPT),
             new Field('manufacturer', 2, Field::APPROVAL_ACCEPT)
         ];
-        $filterGroup1 = new Group($filterFields1, Group::CONJUNCTION_OR);
+        $filterGroup1 = new Group('group1', $filterFields1, Group::CONJUNCTION_OR);
 
         $filterFields2 = [
             new Field('type', 1, Field::APPROVAL_REJECT),
         ];
-        $filterGroup2 = new Group($filterFields2);
+        $filterGroup2 = new Group('group2', $filterFields2);
 
         $filter = new Filter([
             $filterGroup1,
@@ -143,7 +150,8 @@ class FilterTest extends TestCase
         $manager = new Manager(new Base64());
         $encodedFilter = $manager->encode($filter);
 
-        $this->assertSame('H4sIAAAAAAAAC4WNOwqAMBBE7zJ1CmOZq4hFiIkoml1iVhDx7v4qQbHc2XnzVrSJhCeYaoWj2Et0uaMIoxVC54fmfhHfKUYbJViXJfkEhdkO4q-yZU50nDDFpn6B8gnUJ_LQF-_6vLD_0Opjpd52qvpy4NEAAAA', $encodedFilter);
+        $this->assertSame('H4sIAAAAAAAAC4WOwQrCMBBE_2XOOTQ95lekhyVupdLuhjQrSOm_G81FRelxhnnD23DJamlFOG0QWhihNR4OUeVqEsukguAdxonnc5tqai0WEhspFsucK3Kj2fg1ppSy1ojQ7e4Q6D-B4Ym86_TfOt1vnXJP_EfD19dhfwCrMOrV8QAAAA',
+            $encodedFilter);
 
         $decodedFilter = $manager->decode($encodedFilter);
 

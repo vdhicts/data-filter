@@ -31,7 +31,7 @@ The field is a member of a group. The group has a conjunction, which are constan
 `CONJUNCTION_AND` and `CONJUCTION_OR`.
 
 ```php
-$group = new Group($field, Group::CONJUNCTION_OR);
+$group = new Group('manufacturers', $field, Group::CONJUNCTION_OR);
 ```
 
 One or more groups are provided to the filter:
@@ -63,6 +63,22 @@ $filterAdapter = new QueryBuilder();
 $queryBuilder = $filterAdapter->getFilterQuery($queryBuilder, $decodedFilter);
 return $queryBuilder->get();
 ```
+
+A group can be retrieved by it's name from the filter:
+
+```php
+$decodedFilter->getGroup('manufacturers');
+```
+
+Which will return a `Group` object.
+
+Fields can also be retrieved by their key from the group:
+
+```php
+$group->getFields('manufacturer');
+```
+
+Which will return an array of groups.
 
 ## Tests
 

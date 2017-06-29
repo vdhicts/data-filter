@@ -2,10 +2,10 @@
 
 namespace Vdhicts\Dicms\Filter;
 
-use Vdhicts\Dicms\Filter\Contracts\Arrayable;
-use Vdhicts\Dicms\Filter\Contracts\Jsonable;
+use Vdhicts\Dicms\Filter\Contracts;
+use Vdhicts\Dicms\Filter\Exceptions;
 
-class Filter implements Arrayable, Jsonable
+class Filter implements Contracts\Arrayable, Contracts\Jsonable
 {
     /**
      * Holds the groups for this filter.
@@ -23,6 +23,23 @@ class Filter implements Arrayable, Jsonable
     }
 
     /**
+     * Returns the group with the provided name.
+     * @param string $name
+     * @return null|Group
+     */
+    public function getGroup($name)
+    {
+        foreach ($this->groups as $group) {
+            if ($group->getName() === $name) {
+                return $group;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns all the groups in the filter.
      * @return array
      */
     public function getGroups()
@@ -31,17 +48,26 @@ class Filter implements Arrayable, Jsonable
     }
 
     /**
+     * Adds a group.
      * @param Group $group
      * @return Filter
+     * @throws Exceptions\DuplicatedGroupException
      */
     public function addGroup(Group $group)
     {
+        // Force a group name to be unique
+        $currentGroup = $this->getGroup($group->getName());
+        if ( ! is_null($currentGroup)) {
+            throw new Exceptions\DuplicatedGroupException();
+        }
+
         $this->groups[] = $group;
 
         return $this;
     }
 
     /**
+     * Stores the groups.
      * @param array $groups
      * @return Filter
      */

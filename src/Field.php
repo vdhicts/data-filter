@@ -88,7 +88,7 @@ class Field implements Arrayable
      * Returns if the value should be accepted or rejected.
      * @return int
      */
-    public function getApproval(): int
+    public function getApproval()
     {
         return $this->approval;
     }

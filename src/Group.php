@@ -10,6 +10,12 @@ class Group implements Arrayable
     const CONJUNCTION_OR = 1;
 
     /**
+     * Holds the name of the group.
+     * @var string
+     */
+    private $name;
+
+    /**
      * Holds if the conditions should all be matched.
      * @var int
      */
@@ -23,13 +29,36 @@ class Group implements Arrayable
 
     /**
      * Group constructor.
+     * @param string $name
      * @param array $fields
      * @param int $conjunction
      */
-    public function __construct(array $fields = [], $conjunction = self::CONJUNCTION_AND)
+    public function __construct($name, array $fields = [], $conjunction = self::CONJUNCTION_AND)
     {
+        $this->setName($name);
         $this->setFields($fields);
         $this->setConjunction($conjunction);
+    }
+
+    /**
+     * Returns the name of the group.
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Stores the name of the group.
+     * @param string $name
+     * @return Group
+     */
+    private function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -54,12 +83,22 @@ class Group implements Arrayable
     }
 
     /**
-     * Returns the fields.
+     * Returns all fields or the fields with the provided option.
+     * @param string|null $option
      * @return array
      */
-    public function getFields()
+    public function getFields($option = null)
     {
-        return $this->fields;
+        if (is_null($option)) {
+            return $this->fields;
+        }
+
+        return array_filter(
+            $this->fields,
+            function ($field) use ($option) {
+                return $field->getOption() === $option;
+            }
+        );
     }
 
     /**
@@ -98,6 +137,7 @@ class Group implements Arrayable
     public function toArray()
     {
         return [
+            'name'        => $this->getName(),
             'conjunction' => $this->getConjunction(),
             'fields'      => array_map(
                 function (Field $field) {

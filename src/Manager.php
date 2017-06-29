@@ -55,7 +55,7 @@ class Manager
             $filterFields[] = $this->rebuildFilterField($field);
         }
 
-        return new Group($filterFields, $group->conjunction);
+        return new Group($group->name, $filterFields, $group->conjunction);
     }
 
     /**
