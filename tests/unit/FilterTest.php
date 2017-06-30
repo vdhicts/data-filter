@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 use Vdhicts\Dicms\Filter\Codec\Base64;
+use Vdhicts\Dicms\Filter\Exceptions\DuplicatedGroupException;
 use Vdhicts\Dicms\Filter\Field;
 use Vdhicts\Dicms\Filter\Filter;
 use Vdhicts\Dicms\Filter\Group;
@@ -124,6 +125,9 @@ class FilterTest extends TestCase
         $this->assertInstanceOf(Group::class, $filter->getGroup('group1'));
         $this->assertInstanceOf(Group::class, $filter->getGroup('group2'));
         $this->assertInstanceOf(Group::class, $filter->getGroup('group3'));
+
+        $this->expectException(DuplicatedGroupException::class);
+        $filter->addGroup($filterGroup1);
     }
 
     /**
