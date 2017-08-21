@@ -3,6 +3,7 @@
 namespace Vdhicts\Dicms\Filter;
 
 use Vdhicts\Dicms\Filter\Contracts\Arrayable;
+use Vdhicts\Dicms\Filter\Exceptions\InvalidApprovalException;
 
 class Field implements Arrayable
 {
@@ -10,6 +11,7 @@ class Field implements Arrayable
     const APPROVAL_REJECT = 1;
     const APPROVAL_START_OF_RANGE = 2;
     const APPROVAL_END_OF_RANGE = 3;
+    const APPROVAL_IN = 4;
 
     /**
      * Holds the name of the option.
@@ -97,9 +99,21 @@ class Field implements Arrayable
      * Stores if the value should be accepted or rejected.
      * @param int $approval
      * @return Field
+     * @throws InvalidApprovalException
      */
     private function setApproval($approval)
     {
+        $availableApprovals = [
+            self::APPROVAL_ACCEPT,
+            self::APPROVAL_REJECT,
+            self::APPROVAL_START_OF_RANGE,
+            self::APPROVAL_END_OF_RANGE,
+            self::APPROVAL_IN
+        ];
+        if (! in_array($approval, $availableApprovals)) {
+            throw new InvalidApprovalException(sprintf('Approval "%s" is not supported', $approval));
+        }
+
         $this->approval = $approval;
 
         return $this;

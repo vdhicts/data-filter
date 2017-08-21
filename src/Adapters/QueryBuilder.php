@@ -24,8 +24,38 @@ class QueryBuilder implements FilterAdapter
                 return '>=';
             case Field::APPROVAL_END_OF_RANGE :
                 return '<=';
+            case Field::APPROVAL_IN :
+                return 'IN';
             default :
                 return '=';
+        }
+    }
+
+    /**
+     * Creates the filter field query.
+     * @param Builder $query
+     * @param Field $field
+     * @param string $method
+     * @return Builder
+     */
+    public function getFilterFieldQuery(Builder $query, Field $field, $method = 'and')
+    {
+        switch($field->getApproval()) {
+            case Field::APPROVAL_IN :
+                $query->whereIn(
+                    $field->getOption(),
+                    $field->getValue(),
+                    $method
+                );
+                break;
+            default :
+                $query->where(
+                    $field->getOption(),
+                    $this->getFilterFieldOperator($field->getApproval()),
+                    $field->getValue(),
+                    $method
+                );
+                break;
         }
     }
 
@@ -41,23 +71,11 @@ class QueryBuilder implements FilterAdapter
 
         return $builder->where(function(Builder $query) use($adapter, $group) {
             foreach ($group->getFields() as $field) {
-                /** @var Field $field */
-                switch($group->getConjunction()) {
-                    case Group::CONJUNCTION_AND:
-                        $query->where(
-                            $field->getOption(),
-                            $adapter->getFilterFieldOperator($field->getApproval()),
-                            $field->getValue()
-                        );
-                        break;
-                    case Group::CONJUNCTION_OR:
-                        $query->orWhere(
-                            $field->getOption(),
-                            $adapter->getFilterFieldOperator($field->getApproval()),
-                            $field->getValue()
-                        );
-                        break;
-                }
+                $method = $group->getConjunction() == Group::CONJUNCTION_AND
+                    ? 'and'
+                    : 'or';
+
+                $adapter->getFilterFieldQuery($query, $field, $method);
             }
         });
     }
