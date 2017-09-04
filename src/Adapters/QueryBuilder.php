@@ -24,8 +24,6 @@ class QueryBuilder implements FilterAdapter
                 return '>=';
             case Field::APPROVAL_END_OF_RANGE :
                 return '<=';
-            case Field::APPROVAL_IN :
-                return 'IN';
             default :
                 return '=';
         }
@@ -41,6 +39,13 @@ class QueryBuilder implements FilterAdapter
     public function getFilterFieldQuery(Builder $query, Field $field, $method = 'and')
     {
         switch($field->getApproval()) {
+            case Field::APPROVAL_NOT_IN :
+                $query->whereNotIn(
+                    $field->getOption(),
+                    $field->getValue(),
+                    $method
+                );
+                break;
             case Field::APPROVAL_IN :
                 $query->whereIn(
                     $field->getOption(),
