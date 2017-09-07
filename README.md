@@ -2,6 +2,10 @@
 
 Easily filter data with an encoded filter param in the uri.
 
+## Requirements
+
+This package requires PHP 5.6+.
+
 ## Installation
 
 This package can be used in any PHP project or with any framework. The packages is tested in PHP 5.6 and PHP 7.0.
