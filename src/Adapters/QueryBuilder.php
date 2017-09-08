@@ -24,6 +24,10 @@ class QueryBuilder implements FilterAdapter
                 return '>=';
             case Field::APPROVAL_END_OF_RANGE :
                 return '<=';
+            case Field::APPROVAL_LIKE :
+                return 'LIKE';
+            case Field::APPROVAL_ILIKE :
+                return 'ILIKE';
             default :
                 return '=';
         }
@@ -50,6 +54,15 @@ class QueryBuilder implements FilterAdapter
                 $query->whereIn(
                     $field->getOption(),
                     $field->getValue(),
+                    $method
+                );
+                break;
+            case Field::APPROVAL_LIKE :
+            case Field::APPROVAL_ILIKE :
+                $query->where(
+                    $field->getOption(),
+                    $this->getFilterFieldOperator($field->getApproval()),
+                    sprintf('%%%s%%', $field->getValue()),
                     $method
                 );
                 break;

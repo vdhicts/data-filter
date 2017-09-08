@@ -13,6 +13,8 @@ class Field implements Arrayable
     const APPROVAL_END_OF_RANGE = 3;
     const APPROVAL_IN = 4;
     const APPROVAL_NOT_IN = 5;
+    const APPROVAL_LIKE = 6;
+    const APPROVAL_ILIKE = 7;
 
     /**
      * Holds the name of the option.
@@ -111,6 +113,8 @@ class Field implements Arrayable
             self::APPROVAL_END_OF_RANGE,
             self::APPROVAL_IN,
             self::APPROVAL_NOT_IN,
+            self::APPROVAL_LIKE,
+            self::APPROVAL_ILIKE,
         ];
         if (! in_array($approval, $availableApprovals)) {
             throw new InvalidApprovalException(sprintf('Approval "%s" is not supported', $approval));

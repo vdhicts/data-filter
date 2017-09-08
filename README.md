@@ -29,7 +29,8 @@ $field = new Field($fieldKey, $fieldValue);
 
 A field has the ability to accept, reject or see the value as part of a range with a third optional parameter. These 
 parameters are constants of the field `APPROVAL_ACCEPT`, `APPROVAL_REJECT`, `APPROVAL_START_OF_RANGE`, 
-`APPROVAL_END_OF_RANGE`, `APPROVAL_IN` and `APPROVAL_NOT_IN`.
+`APPROVAL_END_OF_RANGE`, `APPROVAL_IN`, `APPROVAL_NOT_IN`, `APPROVAL_LIKE` and `APPROVAL_ILIKE` (which can only be used 
+if your Database supports it, like Postgres).
 
 The field is a member of a group. The group has a conjunction, which are constants of the group called 
 `CONJUNCTION_AND` and `CONJUCTION_OR`.
