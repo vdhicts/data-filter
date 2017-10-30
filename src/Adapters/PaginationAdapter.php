@@ -1,8 +1,9 @@
 <?php
 
-namespace Vdhicts\Dicms\Filter;
+namespace Vdhicts\Dicms\Filter\Adapters;
 
 use Vdhicts\Dicms\Filter\Contracts;
+use Vdhicts\Dicms\Filter\Pagination;
 
 class PaginationAdapter implements Contracts\PaginationAdapter
 {

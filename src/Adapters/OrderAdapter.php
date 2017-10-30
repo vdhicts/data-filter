@@ -1,8 +1,10 @@
 <?php
 
-namespace Vdhicts\Dicms\Filter;
+namespace Vdhicts\Dicms\Filter\Adapters;
 
 use Vdhicts\Dicms\Filter\Contracts;
+use Vdhicts\Dicms\Filter\Order;
+use Vdhicts\Dicms\Filter\OrderField;
 
 class OrderAdapter implements Contracts\OrderAdapter
 {
