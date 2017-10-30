@@ -59,6 +59,34 @@ class Manager
     }
 
     /**
+     * Rebuilds the order.
+     * @param stdClass $order
+     * @return Order
+     */
+    private function rebuildOrder(stdClass $order)
+    {
+        $orders = [];
+        foreach ($order->orders as $order) {
+            $orders[] = new OrderField($order->field, $order->direction);
+        }
+
+        return new Order($orders);
+    }
+
+    /**
+     * Rebuild the pagination.
+     * @param stdClass $pagination
+     * @return Pagination
+     */
+    private function rebuildPagination(stdClass $pagination)
+    {
+        $limit = property_exists($pagination, 'limit') ? $pagination->limit : Pagination::NO_LIMIT;
+        $offset = property_exists($pagination, 'offset') ? $pagination->offset : 0;
+
+        return new Pagination($limit, $offset);
+    }
+
+    /**
      * Rebuilds the filter.
      * @param stdClass $filterData
      * @return Filter
@@ -70,6 +98,9 @@ class Manager
             $filter->addGroup($this->rebuildFilterGroup($group));
         }
 
+        $filter->setOrder($this->rebuildOrder($filterData->order));
+        $filter->setPagination($this->rebuildPagination($filterData->pagination));
+
         return $filter;
     }
 
@@ -80,7 +111,10 @@ class Manager
      */
     public function decode($filterString)
     {
-        $filterData = json_decode(gzdecode($this->codec->decode($filterString, Codec::MODE_URL_SAFE)));
+        $decodedData = $this->codec
+            ->decode($filterString, Codec::MODE_URL_SAFE);
+
+        $filterData = json_decode(gzdecode($decodedData));
 
         return $this->rebuildFilter($filterData);
     }

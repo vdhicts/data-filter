@@ -3,12 +3,12 @@
 namespace Vdhicts\Dicms\Filter\Adapters;
 
 use Illuminate\Database\Query\Builder;
-use Vdhicts\Dicms\Filter\Contracts\FilterAdapter;
+use Vdhicts\Dicms\Filter\Contracts;
 use Vdhicts\Dicms\Filter\Filter;
 use Vdhicts\Dicms\Filter\Field;
 use Vdhicts\Dicms\Filter\Group;
 
-class QueryBuilder implements FilterAdapter
+class FilterAdapter implements Contracts\FilterAdapter
 {
     /**
      * Returns the filter field operator.
@@ -44,14 +44,14 @@ class QueryBuilder implements FilterAdapter
     {
         switch($field->getApproval()) {
             case Field::APPROVAL_NOT_IN :
-                $query->whereNotIn(
+                $query = $query->whereNotIn(
                     $field->getOption(),
                     $field->getValue(),
                     $method
                 );
                 break;
             case Field::APPROVAL_IN :
-                $query->whereIn(
+                $query = $query->whereIn(
                     $field->getOption(),
                     $field->getValue(),
                     $method
@@ -59,7 +59,7 @@ class QueryBuilder implements FilterAdapter
                 break;
             case Field::APPROVAL_LIKE :
             case Field::APPROVAL_ILIKE :
-                $query->where(
+                $query = $query->where(
                     $field->getOption(),
                     $this->getFilterFieldOperator($field->getApproval()),
                     sprintf('%%%s%%', $field->getValue()),
@@ -67,7 +67,7 @@ class QueryBuilder implements FilterAdapter
                 );
                 break;
             default :
-                $query->where(
+                $query = $query->where(
                     $field->getOption(),
                     $this->getFilterFieldOperator($field->getApproval()),
                     $field->getValue(),
@@ -75,6 +75,8 @@ class QueryBuilder implements FilterAdapter
                 );
                 break;
         }
+
+        return $query;
     }
 
     /**

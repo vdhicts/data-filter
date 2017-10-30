@@ -14,12 +14,28 @@ class Filter implements Contracts\Arrayable, Contracts\Jsonable
     private $groups = [];
 
     /**
+     * Holds the pagination.
+     * @var Pagination
+     */
+    private $pagination;
+
+    /**
+     * Holds the order.
+     * @var Order
+     */
+    private $order;
+
+    /**
      * Filter constructor.
      * @param array $groups
+     * @param Pagination|null $pagination
+     * @param Order|null $order
      */
-    public function __construct(array $groups = [])
+    public function __construct(array $groups = [], Pagination $pagination = null, Order $order = null)
     {
         $this->setGroups($groups);
+        $this->setPagination($pagination);
+        $this->setOrder($order);
     }
 
     /**
@@ -51,14 +67,14 @@ class Filter implements Contracts\Arrayable, Contracts\Jsonable
      * Adds a group.
      * @param Group $group
      * @return Filter
-     * @throws Exceptions\DuplicatedGroupException
+     * @throws Exceptions\DuplicatedGroup
      */
     public function addGroup(Group $group)
     {
         // Force a group name to be unique
         $currentGroup = $this->getGroup($group->getName());
         if ( ! is_null($currentGroup)) {
-            throw new Exceptions\DuplicatedGroupException();
+            throw new Exceptions\DuplicatedGroup();
         }
 
         $this->groups[] = $group;
@@ -79,18 +95,64 @@ class Filter implements Contracts\Arrayable, Contracts\Jsonable
     }
 
     /**
+     * Returns the pagination.
+     * @return Pagination
+     */
+    public function getPagination()
+    {
+        return $this->pagination;
+    }
+
+    /**
+     * Stores the pagination.
+     * @param Pagination $pagination
+     */
+    public function setPagination(Pagination $pagination = null)
+    {
+        if (is_null($pagination)) {
+            $pagination = new Pagination();
+        }
+
+        $this->pagination = $pagination;
+    }
+
+    /**
+     * Returns the order.
+     * @return Order
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    /**
+     * Stores the order.
+     * @param Order $order
+     */
+    public function setOrder(Order $order = null)
+    {
+        if (is_null($order)) {
+            $order = new Order();
+        }
+
+        $this->order = $order;
+    }
+
+    /**
      * Returns the array presentation of the Filter.
      * @return array
      */
     public function toArray()
     {
         return [
-            'groups' => array_map(
+            'groups'     => array_map(
                 function (Group $group) {
                     return $group->toArray();
                 },
                 $this->getGroups()
-            )
+            ),
+            'order'      => $this->getOrder()->toArray(),
+            'pagination' => $this->getPagination()->toArray()
         ];
     }
 

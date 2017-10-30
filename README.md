@@ -18,6 +18,8 @@ composer require vdhicts/data-filter
 
 ## Usage
 
+### Filter Field
+
 Creating field is based on a key and a value:
 
 ```php
@@ -32,6 +34,8 @@ parameters are constants of the field `APPROVAL_ACCEPT`, `APPROVAL_REJECT`, `APP
 `APPROVAL_END_OF_RANGE`, `APPROVAL_IN`, `APPROVAL_NOT_IN`, `APPROVAL_LIKE` and `APPROVAL_ILIKE` (which can only be used 
 if your Database supports it, like Postgres).
 
+### Filter Group
+
 The field is a member of a group. The group has a conjunction, which are constants of the group called 
 `CONJUNCTION_AND` and `CONJUCTION_OR`.
 
@@ -44,6 +48,35 @@ One or more groups are provided to the filter:
 ```php
 $filter = new Filter([$group]);
 ```
+
+### Order
+
+The sort order can be defined by `OrderField` objects:
+
+```php
+$orderField = new Orderfield('myField', 'ASC');
+```
+
+These objects are added to the order:
+
+```php
+$order = new Order([$orderField2]);
+```
+
+### Pagination
+
+The pagination is handled by the `Pagination` object:
+
+```php
+$limit = 50;
+$offset = 10;
+$pagination = new Pagination($limit, $offset);
+```
+
+The remove the limit, use the `NO_LIMIT` constant from the `Pagination` class. By default no limit is used and the 
+offset is zero.
+
+### Manager
 
 The manager can encode and decode the filter so it can be used in the url or session. The actual encoding or decoding 
 is performed by a `Codec` which implements the `Codec` contract. By default a `Base64` codec is provided.
@@ -87,13 +120,11 @@ Which will return an array of groups.
 
 ## Tests
 
-Full code coverage unit tests are available in the `tests` folder. Run via phpunit:
+Full code coverage unit tests are available in the tests folder. Run via phpunit:
 
-`vendor\bin\phpunit tests`
+`vendor\bin\phpunit` 
 
-Or if you are interested in the (html) coverage report:
-
-`vendor\bin\phpunit tests --coverage-html report --whitelist src`
+By default a coverage report will be generated in the build/coverage folder.
 
 ## Contribution
 

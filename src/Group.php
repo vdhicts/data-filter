@@ -95,7 +95,7 @@ class Group implements Arrayable
 
         return array_filter(
             $this->fields,
-            function ($field) use ($option) {
+            function (Field $field) use ($option) {
                 return $field->getOption() === $option;
             }
         );

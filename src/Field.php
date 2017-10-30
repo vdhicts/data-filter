@@ -3,7 +3,7 @@
 namespace Vdhicts\Dicms\Filter;
 
 use Vdhicts\Dicms\Filter\Contracts\Arrayable;
-use Vdhicts\Dicms\Filter\Exceptions\InvalidApprovalException;
+use Vdhicts\Dicms\Filter\Exceptions\InvalidApproval;
 
 class Field implements Arrayable
 {
@@ -102,7 +102,7 @@ class Field implements Arrayable
      * Stores if the value should be accepted or rejected.
      * @param int $approval
      * @return Field
-     * @throws InvalidApprovalException
+     * @throws InvalidApproval
      */
     private function setApproval($approval)
     {
@@ -117,7 +117,7 @@ class Field implements Arrayable
             self::APPROVAL_ILIKE,
         ];
         if (! in_array($approval, $availableApprovals)) {
-            throw new InvalidApprovalException(sprintf('Approval "%s" is not supported', $approval));
+            throw new InvalidApproval(sprintf('Approval "%s" is not supported', $approval));
         }
 
         $this->approval = $approval;
