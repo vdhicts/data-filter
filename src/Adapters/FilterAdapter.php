@@ -7,8 +7,11 @@ use Vdhicts\Dicms\Filter\Contracts;
 use Vdhicts\Dicms\Filter\Filter;
 use Vdhicts\Dicms\Filter\Field;
 use Vdhicts\Dicms\Filter\Group;
+use Vdhicts\Dicms\Filter\Order;
+use Vdhicts\Dicms\Filter\OrderField;
+use Vdhicts\Dicms\Filter\Pagination;
 
-class FilterAdapter implements Contracts\FilterAdapter
+class FilterAdapter implements Contracts\FilterAdapter, Contracts\OrderAdapter, Contracts\PaginationAdapter
 {
     /**
      * Returns the filter field operator.
@@ -101,6 +104,34 @@ class FilterAdapter implements Contracts\FilterAdapter
     }
 
     /**
+     * Returns the query builder with the order applied.
+     * @param mixed $builder
+     * @param Order $order
+     * @return mixed
+     */
+    private function getOrderQuery($builder, Order $order)
+    {
+        foreach ($order->get() as $orderField) {
+            /** @var OrderField $orderField */
+            $builder = $builder->orderBy($orderField->getField(), $orderField->getDirection());
+        }
+
+        return $builder;
+    }
+
+    /**
+     * Returns the query builder with the pagination applied.
+     * @param mixed $builder
+     * @param Pagination $pagination
+     * @return mixed
+     */
+    private function getPaginationQuery($builder, Pagination $pagination)
+    {
+        return $builder->limit($pagination->getLimit())
+            ->offset($pagination->getOffset());
+    }
+
+    /**
      * Returns the eloquent query builder with the filter applied.
      * @param Builder $builder
      * @param Filter $filter
@@ -110,10 +141,19 @@ class FilterAdapter implements Contracts\FilterAdapter
     {
         $adapter = $this;
 
-        return $builder->where(function(Builder $query) use($adapter, $filter) {
+        // Apply the filter
+        $queryBuilder = $builder->where(function(Builder $query) use($adapter, $filter) {
             foreach ($filter->getGroups() as $group) {
                 $query = $adapter->getFilterGroupQuery($query, $group);
             }
         });
+
+        // Apply the sort order
+        $queryBuilder = $this->getOrderQuery($queryBuilder, $filter->getOrder());
+
+        // Apply the pagination
+        $queryBuilder = $this->getPaginationQuery($queryBuilder, $filter->getPagination());
+
+        return $queryBuilder;
     }
 }
