@@ -109,7 +109,7 @@ class FilterAdapter implements Contracts\FilterAdapter, Contracts\OrderAdapter, 
      * @param Order $order
      * @return mixed
      */
-    private function getOrderQuery($builder, Order $order)
+    public function getOrderQuery($builder, Order $order)
     {
         foreach ($order->get() as $orderField) {
             /** @var OrderField $orderField */
@@ -125,7 +125,7 @@ class FilterAdapter implements Contracts\FilterAdapter, Contracts\OrderAdapter, 
      * @param Pagination $pagination
      * @return mixed
      */
-    private function getPaginationQuery($builder, Pagination $pagination)
+    public function getPaginationQuery($builder, Pagination $pagination)
     {
         return $builder->limit($pagination->getLimit())
             ->offset($pagination->getOffset());
