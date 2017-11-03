@@ -1,6 +1,7 @@
 {
     "name": "vdhicts/data-filter",
     "description": "Easily filter data with an encoded filter param in the uri",
+    "license": "MIT",
     "authors": [
         {
             "name": "Dick van der Heiden",
