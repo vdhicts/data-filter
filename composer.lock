@@ -4,8 +4,45 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e72f6d0ee32dbfb3de2850ccb60710c8",
-    "packages": [],
+    "content-hash": "6d8e8aad91263d4ca34cbe5e6b7cf79a",
+    "packages": [
+        {
+            "name": "vdhicts/pagination",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vdhicts/dicms-pagination.git",
+                "reference": "1969219a14ae86425bfe249510ecf164b110bba6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vdhicts/dicms-pagination/zipball/1969219a14ae86425bfe249510ecf164b110bba6",
+                "reference": "1969219a14ae86425bfe249510ecf164b110bba6",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Vdhicts\\Dicms\\Pagination\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dick van der Heiden",
+                    "email": "info@vdhicts.nl"
+                }
+            ],
+            "description": "Easily use pagination for your repositories and in your templates",
+            "time": "2017-11-03T13:59:03+00:00"
+        }
+    ],
     "packages-dev": [
         {
             "name": "doctrine/instantiator",

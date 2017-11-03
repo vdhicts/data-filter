@@ -81,9 +81,9 @@ class Manager
     private function rebuildPagination(stdClass $pagination)
     {
         $limit = property_exists($pagination, 'limit') ? $pagination->limit : Pagination::NO_LIMIT;
-        $offset = property_exists($pagination, 'offset') ? $pagination->offset : 0;
+        $page = property_exists($pagination, 'page') ? $pagination->page : 1;
 
-        return new Pagination($limit, $offset);
+        return new Pagination($limit, $page);
     }
 
     /**

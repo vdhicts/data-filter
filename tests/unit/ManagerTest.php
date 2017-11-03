@@ -27,7 +27,7 @@ class ManagerTest extends TestCase
 
         $filter = new Filter(
             [$filterGroup1, $filterGroup2],
-            new Pagination(10, 20),
+            new Pagination(10, 1),
             new Order([
                 new OrderField('test', 'desc')
             ])
@@ -37,7 +37,7 @@ class ManagerTest extends TestCase
         $encodedFilter = $manager->encode($filter);
 
         $this->assertSame(
-            'H4sIAAAAAAAAC4WOMQ7CMAxF7_LnDE3HrMAJGFGHqHWqoDaJ0gQJRb07bsMACMRmf_1nv4Ix-hwWqEuB0zNB1URCoPfuml2frHdQUsBYmoZa9aGmmLXLRvcpR4qM3PSUaS_rEKLnFapZxV-gfQe6DXnVaT91mu866R7oh4bkq52AjwM_VqUOFd8vbTQtienBRnq-wfF0PmDzQdCjdbrGTBuzUGJxFpnsbHmUzbo-AD492oNQAQAA',
+            'H4sIAAAAAAAAC4WOMQ7CMAxF7_LnDG3HrMAJGFEHq3WroDaJ0gQJRbk7ScMACMRmf_n5v4jZmWA3yEuEppUha9JCYDD6GvTgldGQrcCkeBnrqbE1xUo6TDT44Nhl5EZL4P2YrHUmr5BNEn-B7h3oC_Kq033qNN91_N3yD402f-0FjBtzsYx1qPj-qdC8-UyPyvGzBsfT-YDiA0uz0lTjWLZasKhV-Tw1KT0AJwgc-k0BAAA',
             $encodedFilter
         );
 
