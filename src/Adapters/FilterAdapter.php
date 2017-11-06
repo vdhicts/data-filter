@@ -9,9 +9,9 @@ use Vdhicts\Dicms\Filter\Field;
 use Vdhicts\Dicms\Filter\Group;
 use Vdhicts\Dicms\Filter\Order;
 use Vdhicts\Dicms\Filter\OrderField;
-use Vdhicts\Dicms\Filter\Pagination;
+use Vdhicts\Dicms\Pagination\Contracts\Paginator;
 
-class FilterAdapter implements Contracts\FilterAdapter, Contracts\OrderAdapter, Contracts\PaginationAdapter
+class FilterAdapter implements Contracts\FilterAdapter
 {
     /**
      * Returns the filter field operator.
@@ -122,10 +122,10 @@ class FilterAdapter implements Contracts\FilterAdapter, Contracts\OrderAdapter, 
     /**
      * Returns the query builder with the pagination applied.
      * @param mixed $builder
-     * @param Pagination $pagination
+     * @param Paginator $pagination
      * @return mixed
      */
-    public function getPaginationQuery($builder, Pagination $pagination)
+    public function getPaginationQuery($builder, Paginator $pagination)
     {
         return $builder->limit($pagination->getLimit())
             ->offset($pagination->getOffset());

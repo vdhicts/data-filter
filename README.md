@@ -8,7 +8,7 @@ This package requires PHP 5.6+.
 
 ## Installation
 
-This package can be used in any PHP project or with any framework. The packages is tested in PHP 5.6 and PHP 7.0.
+This package can be used in any PHP project or with any framework. The package is tested in PHP 5.6 and PHP 7.0.
 
 You can install the package via composer:
 
@@ -92,16 +92,6 @@ The manager can decode the filter and will return a new filter instance:
 $decodedFilter = $manager->decode($encodedFilter);
 ```
 
-A query builder is provided to easily query your database with the filter configuration for the illuminate query 
-builder:
- 
-```php
-$filterAdapter = new QueryBuilder();
-
-$queryBuilder = $filterAdapter->getFilterQuery($queryBuilder, $decodedFilter);
-return $queryBuilder->get();
-```
-
 A group can be retrieved by it's name from the filter:
 
 ```php
@@ -117,6 +107,20 @@ $group->getFields('manufacturer');
 ```
 
 Which will return an array of groups.
+
+### Adapter
+
+A query builder is provided to easily query your database with the filter configuration for the illuminate query 
+builder:
+ 
+```php
+$filterAdapter = new QueryBuilder();
+
+$queryBuilder = $filterAdapter->getFilterQuery($queryBuilder, $decodedFilter);
+return $queryBuilder->get();
+```
+
+You are free to implement your own adapter, as long as it implements the `FilterAdapter` contract.
 
 ## Tests
 
