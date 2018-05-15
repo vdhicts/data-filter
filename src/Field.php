@@ -37,7 +37,7 @@ class Field implements Arrayable
     /**
      * FilterField constructor.
      * @param string $option
-     * @param string $value
+     * @param mixed $value
      * @param int $approval
      */
     public function __construct($option, $value, $approval = self::APPROVAL_ACCEPT)
@@ -70,7 +70,7 @@ class Field implements Arrayable
 
     /**
      * Holds the value of the option.
-     * @return string
+     * @return string|array
      */
     public function getValue()
     {
@@ -79,7 +79,7 @@ class Field implements Arrayable
 
     /**
      * Stores the value of the option.
-     * @param string $value
+     * @param string|array $value
      * @return Field
      */
     private function setValue($value = '')
