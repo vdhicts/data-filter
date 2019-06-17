@@ -1,23 +1,23 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "6d8e8aad91263d4ca34cbe5e6b7cf79a",
     "packages": [
         {
             "name": "vdhicts/pagination",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vdhicts/dicms-pagination.git",
-                "reference": "1969219a14ae86425bfe249510ecf164b110bba6"
+                "reference": "96955d7f0cbdb0174de58607749cc050d0588df9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vdhicts/dicms-pagination/zipball/1969219a14ae86425bfe249510ecf164b110bba6",
-                "reference": "1969219a14ae86425bfe249510ecf164b110bba6",
+                "url": "https://api.github.com/repos/vdhicts/dicms-pagination/zipball/96955d7f0cbdb0174de58607749cc050d0588df9",
+                "reference": "96955d7f0cbdb0174de58607749cc050d0588df9",
                 "shasum": ""
             },
             "require-dev": {
@@ -40,7 +40,7 @@
                 }
             ],
             "description": "Easily use pagination for your repositories and in your templates",
-            "time": "2017-11-03T13:59:03+00:00"
+            "time": "2017-11-06T09:31:22+00:00"
         }
     ],
     "packages-dev": [
@@ -740,6 +740,7 @@
                 "mock",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2017-06-30T09:13:00+00:00"
         },
         {
