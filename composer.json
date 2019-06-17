@@ -14,7 +14,7 @@
         "vdhicts/pagination": "^1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.7"
+        "phpunit/phpunit": "^8.2"
     },
     "autoload": {
         "psr-4": {
